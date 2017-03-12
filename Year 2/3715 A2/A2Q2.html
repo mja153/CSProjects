@@ -1,0 +1,90 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+    "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+    <head>
+	        <title>A2Q2 Password Prompt Page</title>
+    </head>
+	<style>
+	
+	p.one{
+		font-size: 200%;
+		text-align:center;
+		border: none;
+		font-family: "Courier New";
+	}
+	p.two{
+		font-size: 130%;
+		border: none;
+		font-family: "Courier New";
+	}
+	</style>
+	<script>
+	function getCookie(username) {
+    var username = username + "=";
+    var ca = document.cookie.split(';');
+    for(var i=0; i<ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0)==' ') c = c.substring(1);
+        if (c.indexOf(username) == 0) return c.substring(username.length, c.length);
+    }
+    return "";
+	}
+	function checkCookie() {
+    var user=getCookie("username");
+    if (user != "") {
+        document.getElementById('cookied').style.display = visible;
+		document.getElementById('authCheck').style.display = none;
+		 }
+	else{
+	document.getElementById('authCheck').style.display = visible;
+	document.getElementById('cookied').style.display = none;
+		}
+	}
+
+	</script>
+	<body onload="checkCookie()">
+	<body>
+	<div id="cookied" style="display: none;">
+	<pre>User name and Password Authentication Successful.</pre>
+	</div>
+	<div id="authCheck" style="display: visible;">
+	<table align=center width="700">
+		<tr>
+		<td  colspan = 3>
+		<p class="one">
+				<b>Enter your user name and password</b>
+				</p>
+			</td>
+			</tr>
+		
+		<form method="GET" action="http://localhost:2525/PWServer">
+		<tr>
+			<td>
+				<p class="two">
+				User Name:
+				</p>
+			</td>
+			<td>
+				<input type="text" name="username">
+			</td>
+		</tr>
+		
+		<tr>
+			<td>
+				<p class="two">
+				Password:
+				</p>
+			</td>
+			<td>
+				<input type="password" name="password">
+			</td>
+		</tr>
+		<tr>
+			<td>
+			<input type="submit" value="Submit">
+			</td>
+		</tr>
+		</form>
+		</div>
+	    </body>
+</html>

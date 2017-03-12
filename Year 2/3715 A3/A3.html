@@ -1,0 +1,85 @@
+<!DOCTYPE HTML PUBLIC>
+<html>
+<head>
+	<title>A3 Paragraph Modification</title>
+</head>
+<script>
+function alterParagraph(){
+	var addButton = document.getElementById("add");
+	var textArea = document.getElementById("textarea");
+	var deleteButton = document.getElementById("delete");
+	var insertButton = document.getElementById("insert-a");
+	var replaceButton = document.getElementById("replace");
+	var s = document.getElementById("select");
+	var selected = s.selectedIndex;
+	var nodeList = document.getElementsByTagName("p");	
+
+
+	if(addButton.checked){
+		var para = document.createElement("p");
+		var node = document.createTextNode(textArea.value);		
+		para.appendChild(node);
+		var paraList = document.getElementById("paragraphs");
+		paraList.insertBefore(para, paraList.childNodes[0]);
+	}
+
+	if(replaceButton.checked){
+		var para = document.createElement("p");
+		var node = document.createTextNode(textArea.value);
+		para.appendChild(node);
+		var paraList = document.getElementById("paragraphs");
+		paraList.replaceChild(para, paraList.childNodes[selected]);
+	}
+
+	if(deleteButton.checked){
+		var paraList = document.getElementById("paragraphs");
+		paraList.removeChild(paraList.childNodes[selected]);
+	}
+
+	if(insertButton.checked){
+		var para = document.createElement("p");
+		var node = document.createTextNode(textArea.value);
+		para.appendChild(node);
+		var paraList = document.getElementById("paragraphs");
+		paraList.insertBefore(para, paraList.childNodes[selected].nextSibling);
+	}
+	
+	// after alterations, check how many options are required in select dropdown
+	document.masterform.select.options.length=0;
+	var selectLength = document.masterform.select;
+	var i;
+
+	for(i=0; i<nodeList.length-1; i++){
+		 selectLength.options[select.options.length]=new Option((i+1).toString(), (i+1).toString(), false, false);
+	}
+	// reset buttons
+	addButton.checked =  false;
+	replaceButton.checked =  false;
+	deleteButton.checked =  false;
+	insertButton.checked =  false;
+	textArea.value = "Please enter your text";
+}
+</script>
+<body>
+	<form name="masterform">
+		<textarea rows="4" cols="50" id="textarea" onClick="this.setSelectionRange(0, this.value.length)">
+This is the second paragraph. You can add it by clicking on Insert after node button
+		</textarea> <br>
+		<input type="radio" id="add" value="add"> Add node
+		<input type="radio" id="delete" value="del"> Delete node
+		<input type="radio" id="insert-a" value="insert"> Insert after node
+		<input type="radio" id="replace" value="replace"> Replace node
+		<br>
+		<br>
+		Paragraph #: 
+		<select id="select">
+		  <option value="1">1</option>
+		</select>
+		
+		<input type="submit" name="submit" value="Submit" onclick="alterParagraph(); return false;">
+		<div id="paragraphs">
+		<p id='0'></p>
+		</div>
+	</form>
+</body>
+</html>

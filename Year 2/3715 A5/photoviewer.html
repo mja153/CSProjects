@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>A5 Photo Viewer</title>
+	</head>
+	
+<script>
+	var currentPhotoNum = 0;
+	var maxPhotoCount = 0;
+	var content = "";
+	var str = "";
+	var strSplit = "";
+	var currentComments = "";
+	var dir = "";
+		//initial function loaded upon runtime
+		function initial(initCallback){
+			var xhttp = new XMLHttpRequest();
+		//once ready, perform callback
+			xhttp.onreadystatechange = function() {
+				if (xhttp.readyState == 4 && xhttp.status == 200) {
+					initCallback(xhttp.responseText);
+				}
+			};
+		//send AJAX request to php server - q=1 indicates that this is the initial runthrough (it return max # of photos in directory & the directory itself)
+			xhttp.open("GET", "http://localhost:5500/CS/photoChanger.php?q=1", true);
+			xhttp.send();
+			}
+		//callback function for startup function
+		function initCallback(xhttp){
+		//divide response into its seperate parts (max # of photos, photo src, associated comments, directory path)
+			str = xhttp;
+			strSplit = str.split(" ");
+			maxPhotoCount = strSplit[2];
+			currentComments = "";
+			dir = strSplit[1].substring(1, strSplit[1].length);
+				for(var i=3; i<strSplit.length; i++){
+					currentComments += strSplit[i] + " ";
+				}
+		//display photo + comments
+			document.getElementById("currentPic").src = ("http://localhost:5500/CS"+dir+strSplit[0]);
+			document.getElementById("currentComments").innerHTML = currentComments;
+		}
+		//callback function for user-activated functions
+		function callback(xhttp){
+		//divide response into its seperate parts (max # of photos, photo src, associated comments)
+			str = xhttp;
+			strSplit = str.split(" ");
+			currentComments = "";
+				for(var i=1; i<strSplit.length; i++){
+					currentComments += strSplit[i] + " ";
+			}
+		//display photo + comments
+			document.getElementById("currentPic").src = ("http://localhost:5500/CS"+dir+strSplit[0]);
+			document.getElementById("currentComments").innerHTML = currentComments;
+		}
+		//function for display next picture
+		function nextPic(){
+		//check if you are viewing last photo or not. if so, next = first, otherwise, next.
+			if(currentPhotoNum<maxPhotoCount-1){
+				currentPhotoNum++
+			}
+			else{
+				currentPhotoNum = 0;
+			}
+		//once ready, perform callback
+			var xhttp = new XMLHttpRequest();
+			xhttp.onreadystatechange = function() {
+				if (xhttp.readyState == 4 && xhttp.status == 200) {
+					callback(xhttp.responseText);
+				}
+			};
+		//send AJAX request to php server - q=2 indicates to the server that the user is just moving onto their next photo
+			xhttp.open("GET", "http://localhost:5500/CS/photoChanger.php?q=2&p="+currentPhotoNum, true);
+			xhttp.send();
+		}
+		//function for display previous picture
+		function prevPic(){
+		//check if you are viewing first photo or not. if so, previous = last, otherwise, previous.
+			if(currentPhotoNum>0){
+				currentPhotoNum--
+			}
+			else{
+				currentPhotoNum = maxPhotoCount-1;
+			}
+		//once ready, perform callback
+			var xhttp = new XMLHttpRequest();
+			xhttp.onreadystatechange = function() {
+				if (xhttp.readyState == 4 && xhttp.status == 200) {
+					callback(xhttp.responseText);
+				}
+			};
+		//send AJAX request to php server - q=2 indicates to the server that the user is just moving onto their next photo
+			xhttp.open("GET", "http://localhost:5500/CS/photoChanger.php?q=2&p="+currentPhotoNum, true);
+			xhttp.send();
+		}
+		//function for adding a comment (and redisplaying the photo)
+		function addComment(){
+		//get content from text box
+			content = document.getElementById("commentText").value;
+		//once ready, perform callback
+			var xhttp = new XMLHttpRequest();
+			xhttp.onreadystatechange = function() {
+				if (xhttp.readyState == 4 && xhttp.status == 200) {
+					callback(xhttp.responseText);
+				//reset text box value
+					document.getElementById("commentText").value = "";
+				}
+			};
+		//send AJAX request to php server - q=3 indicates to the server that the user adding a comment, and thus to write their comment into the associated file before returning the content of the file.
+			xhttp.open("GET", "photoChanger.php?q=3&p="+currentPhotoNum+"&c="+content, true);
+			xhttp.send();
+		}
+</script>
+
+<body onload="initial(initCallback)">
+	<h2>Photo Viewer</h2>
+	<div id="photo"><img id="currentPic" src="" alt ="" height="250" width="250"></div>
+		<b>Comments: </b>
+	<div id="comments"><p style="display:inline" id="currentComments"></p></div>
+		<br>
+	<button type="button" name="previous" onclick="prevPic()">Previous</button>
+	<button type="button" name="next" onclick="nextPic()">Next</button>
+		<br>
+	<textarea rows="4" cols="50" id="commentText"></textarea>
+		<br>
+	<button type="button" name="Submit" onclick="addComment()">Submit</button>
+</body>
+
+</html>

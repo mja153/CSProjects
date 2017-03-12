@@ -1,0 +1,91 @@
+<html>
+<style>
+		.h1{
+			font-family: tahoma, arial, helvetica, sans-serif;
+			x-large; 
+			color: #008CBA;
+			font-size: 300%
+			
+		}
+		.one{
+			font-family: tahoma, arial, helvetica, sans-serif;
+			x-large; 
+			text-align: center;
+			color: black;
+			
+		}
+		.table {
+		
+			padding: 15px;
+			border-radius: 25px;
+		}
+		.two{
+			font-family: tahoma, arial, helvetica, sans-serif;
+			x-large; 
+			color: black;
+			
+		}
+		.three{
+			font-family: tahoma, arial, helvetica, sans-serif;
+			x-large; 
+			text-align: left;
+			color: black;
+			
+		}
+		.logButton:hover{
+			font-family: tahoma, arial, helvetica, sans-serif;
+			x-large; 
+			border-radius: 8px;
+			background-color: #B0B0B0;
+			text-align: center;
+			border: 1px solid #008CBA;
+		}
+		.logButton{
+			font-family: tahoma, arial, helvetica, sans-serif;
+			x-large; 
+			border-radius: 8px;
+			background-color: #008CBA;
+			text-align: center;
+			border: 1px solid #E0E0E0;
+		}
+		.selectstyle1 option{
+			background-color: #E8E8E8;
+			font-family: tahoma, arial, helvetica, sans-serif;
+			x-large; 
+		}
+		.selectstyle2 option{
+			background-color: #B0B0B0;
+			font-family: tahoma, arial, helvetica, sans-serif;
+			x-large; 
+		}
+		.center{
+			text-align: center;
+		}
+
+		
+		</style>
+	<body onload="enumList()"background="blueblackbg(small).jpg">
+		<table class="table" align=center valign="top"  width=1000>
+			<tr>
+				<td style="border-radius: 25px;" width=400 class="center" bgcolor= "transparent">
+				
+					<h1 class="h1">Gradebook</h1>
+					<br>
+					<button class="logButton" align = center type=button id=returnToPage onclick="returnToMain()">Return to Main Page</button><br><br>
+					<button class="logButton" align = center type=button id=logOut onclick="logout()">Log Out</button><br>
+					<br>
+				</td>
+				<td rowspan=2 valign="top" style="padding: 15px; border-radius: 25px;" width=200 bgcolor="#B0B0B0">
+					<table id=dataTable border valign="top" class="table" >					</table>
+				</td>
+			</tr>
+			<tr >
+				<td style="border-radius: 25px;" width=400 bgcolor="transparent" align="left">
+				<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+				</td>
+			</tr>
+		</table>
+		
+		<script src=functions.js></script>
+	</body>
+</html>

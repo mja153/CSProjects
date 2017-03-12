@@ -1,0 +1,154 @@
+<html>
+	<style>
+		.h1{
+			font-family: tahoma, arial, helvetica, sans-serif;
+			x-large; 
+			color: #008CBA;
+			font-size: 300%	
+		}
+		.text{
+			font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;
+			color: white;
+			text-align: center;
+		}
+		.maintable{
+			margin-left: 15%;
+			margin-right: 15%;
+			width: 30%;
+		}
+		.page {
+			background-image: url(blueblackbg.jpg);
+		}
+		.title{
+			font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;
+			color: white;
+			text-align: center;
+		}
+		.copyright{
+		}
+		.blueButton{
+			font-family: tahoma, arial, helvetica, sans-serif;
+			font-size: 150%;
+			x-large; 
+			width: 170;
+			height: 75;
+			border-radius: 8px;
+			color:white;
+			background-color: #008CBA;
+			text-align: center;
+			border: 3px solid #B0B0B0 ;
+			opacity: 1;
+		}
+		.blueButton:hover{
+			font-family: tahoma, arial, helvetica, sans-serif;
+			x-large; 
+			border-radius: 8px;
+			background-color: #E0E0E0 ;
+			text-align: center;
+			border: 2px solid #008CBA ;
+		}
+		.secondButton{
+			font-family: tahoma, arial, helvetica, sans-serif;
+			x-large; 
+			width: 100;
+			height: 40;
+			border-radius: 8px;
+			background-color: #B0B0B0;
+			text-align: center;
+			border: 3px solid #008CBA;
+			opacity: 1;
+		}
+		.secondButton:hover{
+			font-family: tahoma, arial, helvetica, sans-serif;
+			x-large; 
+			border-radius: 8px;
+			background-color: #E0E0E0 ;
+			text-align: center;
+			border: 2px solid #008CBA ;
+		}
+		input[type=text] {
+			width: 150px;
+			-webkit-transition: width .35s ease-in-out;
+			transition: width .35s ease-in-out;
+		}		
+		input[type=text]:focus {
+			width: 200px;
+		}
+		input[type=password] {
+			width: 150px;
+			-webkit-transition: width .35s ease-in-out;
+			transition: width .35s ease-in-out;
+		}		
+		input[type=password]:focus {
+			width: 200px;
+		}
+		.fadein{
+			 animation: fadein 2s;
+			-moz-animation: fadein 2s; 
+			-webkit-animation: fadein 2s; 
+			-o-animation: fadein 2s;		
+		}
+		@-webkit-keyframes fadein {
+			from {
+				opacity:0;
+			}	
+			to {
+				opacity:1;
+			}
+		}
+	</style>
+	<body id=body class=page>
+		<table align=center>
+			<tr>
+				<td align=center>
+					<h1 class="h1">Gradebook</h2><br>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<form class=text id=auth>
+					<div class = "fadein" id=content>
+					<br><br><br><br><br><br><br><br><br><br><br><br>
+						<button class="blueButton" type=button id=addStudent onclick="welcome()">login</button>
+					</div>
+					</form>
+				</td>
+			</tr>
+		</table>
+	</body>
+	<script>
+		function welcome(){
+			var login = document.getElementById("content");
+			login.innerHTML = "<br><br><br><br><br><br><br><br><br><br><br><br><form class=text id=auth><div class = \"fadein\" id=content>Username: <input class=\"input\" type=text maxlength=10 id=username></input><br><br>Password:  <input class=\"input\" type=password maxlength=12 id=password></input><br><br><br><button class=\"secondButton\" type=button onclick=\"authenticate()\">login</button><br>";
+			
+		}
+		function authenticate() {
+			var user = document.getElementById('username').value;
+			var pass = document.getElementById('password').value;
+			//use ajax to call the authentication php file
+			var path = "auth.php/"	//php file that handles the authentication process
+			//use AJAX to supply the php file
+			var xhttp = new XMLHttpRequest();
+			xhttp.open("POST", path, true);
+			xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+			xhttp.onreadystatechange = function() {
+				if (xhttp.readyState == 4 && xhttp.status == 200) {
+					if (xhttp.responseText == "")
+						location.href = "main.html";
+					else{
+						location.href = "authenticate.html";
+						alert("The credentials you have entered are incorrect.");
+					}						
+				}
+			};
+			var creds = "user=" + user + "&pwd=" + pass;
+			xhttp.send(creds);
+		}
+		
+		//<h3 class=text>Please enter your username/password combination.</h3>
+				//	<form class=text id=auth>
+					//	Username: <input type=text maxlength=10 id=username></input><br>
+					//	Password:  <input type=password maxlength=12 id=password></input><br>
+						//	<button type=button onclick="authenticate()">Log In</button><br>
+	</script>
+</html>
